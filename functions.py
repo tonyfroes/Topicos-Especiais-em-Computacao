@@ -38,7 +38,6 @@ def select_source(driver, opcoes_origem):
 def test_and_save_image(driver, selected_option):
     # Novo valor que você deseja definir
     new_value = input("Digite um IP(179.189.148.120): ")
-    print("Exemplo de IP: 179.189.148.120")
     #new_value = "179.189.148.120"
 
     # Execute um script JavaScript para definir o novo valor
