@@ -3,6 +3,8 @@ from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
+import csv
+import requests
 
 def save_options(driver):
     select_element = Select(driver.find_element(By.ID, "origem"))
@@ -36,40 +38,36 @@ def select_source(driver, opcoes_origem):
         return None
 
 def test_and_save_image(driver, selected_option):
-    # Novo valor que você deseja definir
-    new_value = input("Digite um IP(179.189.148.120): ")
-    #new_value = "179.189.148.120"
+    with open('ips.csv', 'r') as csv_file:
+        csv_reader = csv.reader(csv_file)
+        next(csv_reader)  # Pular o cabeçalho, se houver
 
-    # Execute um script JavaScript para definir o novo valor
-    driver.execute_script("document.getElementById('ip').value = arguments[0];", new_value)
+        for row in csv_reader:
+            new_value = row[0]  # Assume que o IP está na primeira coluna
 
-    # Localize o botão "Testar" e clique nele
-    testar_button = driver.find_element(By.ID, "testar")
-    if testar_button.is_enabled() and testar_button.is_displayed():
-        testar_button.click()
-        print("Botão Testar clicado!")
+            driver.execute_script("document.getElementById('ip').value = arguments[0];", new_value)
 
-        # Aguarde até que a tabela termine de carregar
-        try:
-            WebDriverWait(driver, 100).until(
-                EC.visibility_of_element_located((By.ID, "graph_end"))
-            )
-            print("A tabela foi carregada com sucesso!")
+            testar_button = driver.find_element(By.ID, "testar")
+            if testar_button.is_enabled() and testar_button.is_displayed():
+                testar_button.click()
+                print("Botão Testar clicado!")
 
-            # Localize o botão "Salvar PNG" e clique nele
-            salvar_png_button = WebDriverWait(driver, 30).until(
-                EC.presence_of_element_located((By.XPATH, "//button[contains(text(), 'Salvar PNG')]"))
-            )
-            if salvar_png_button.is_enabled() and salvar_png_button.is_displayed():
-                time.sleep(10)
-                salvar_png_button.click()
-                print("Botão 'Salvar PNG' clicado!")
+                try:
+                    WebDriverWait(driver, 100).until(EC.visibility_of_element_located((By.ID, "graph_end")))
+                    print("A tabela foi carregada com sucesso!")
 
-                # Aguarde um momento (por exemplo, 5 segundos) para o download
-                time.sleep(5)
+                    salvar_png_button = WebDriverWait(driver, 120).until(
+                        EC.presence_of_element_located((By.XPATH, "//button[contains(text(), 'Salvar PNG')]"))
+                    )
+                    if salvar_png_button.is_enabled() and salvar_png_button.is_displayed():
+                        time.sleep(10)
+                        salvar_png_button.click()
+                        print("Botão 'Salvar PNG' clicado!")
+                        time.sleep(5)
+                    else:
+                        print("Botão 'Salvar PNG' não disponível para clique.")
+                except Exception as e:
+                    print("A tabela não foi carregada após 30 segundos.")
             else:
-                print("Botão 'Salvar PNG' não disponível para clique.")
-        except Exception as e:
-            print("A tabela não foi carregada após 30 segundos.")
-    else:
-        print("Botão Testar não disponível para clique.")
+                print("Botão Testar não disponível para clique.")
+

@@ -29,7 +29,7 @@ def main():
     driver = webdriver.Chrome(options=chrome_options)
 
     # Navegar até o site
-    driver.get("http://www.isptools.com.br/mtr")
+    driver.get("http://isp.tools/mtr")
 
     # Esperar um momento para o site carregar completamente
     time.sleep(5)
