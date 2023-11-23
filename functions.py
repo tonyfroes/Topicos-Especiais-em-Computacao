@@ -52,22 +52,47 @@ def test_and_save_image(driver, selected_option):
                 testar_button.click()
                 print("Botão Testar clicado!")
 
-                try:
-                    WebDriverWait(driver, 100).until(EC.visibility_of_element_located((By.ID, "graph_end")))
-                    print("A tabela foi carregada com sucesso!")
+                # Esperar até que o elemento <tfoot> com o ID "graph_end" seja exibido
+                wait = WebDriverWait(driver, 120)
+                wait.until(EC.visibility_of_element_located((By.ID, "graph_end")))
 
-                    salvar_png_button = WebDriverWait(driver, 120).until(
-                        EC.presence_of_element_located((By.XPATH, "//button[contains(text(), 'Salvar PNG')]"))
-                    )
-                    if salvar_png_button.is_enabled() and salvar_png_button.is_displayed():
-                        time.sleep(10)
-                        salvar_png_button.click()
-                        print("Botão 'Salvar PNG' clicado!")
-                        time.sleep(5)
-                    else:
-                        print("Botão 'Salvar PNG' não disponível para clique.")
-                except Exception as e:
-                    print("A tabela não foi carregada após 30 segundos.")
-            else:
-                print("Botão Testar não disponível para clique.")
+                # Esperar até que a tabela de resultados seja exibida
+                result_table = wait.until(EC.visibility_of_element_located((By.ID, "graph_table")))
 
+                # Esperar até que todas as linhas estejam presentes na tabela
+                wait.until(EC.presence_of_all_elements_located((By.TAG_NAME, "tr")))
+                
+                wait.until(EC.presence_of_element_located((By.ID, "graph_end")))
+                #wait.until(EC.presence_of_element_located((By.ID, "th")))
+
+                print("Tabela de resultados exibida!")
+                # Encontrar todas as linhas na tabela
+                rows = result_table.find_elements(By.TAG_NAME, "tr")[:-1]
+
+                with open('traceroute.csv', 'a') as f:
+                    hop_ms_list = []
+
+                    for row in rows:
+                        cells = row.find_elements(By.TAG_NAME, "td")
+                        if cells:
+                            hop = cells[0].text
+                            ms = cells[3].text if len(cells) > 3 else ""
+                            #if ms != "FIM":  # Salvar todos os valores exceto "FIM" na lista
+                            hop_ms_list.append(f"{selected_option},{new_value},{hop},{ms}\n")
+                            time.sleep(0.5)
+                    
+                    # Salvar todos os valores dos elementos 'td', exceto "FIM"
+                    for line in hop_ms_list:
+                        f.write(line)
+                    time.sleep(0.5)
+                    
+                    # Salvar o valor do elemento 'th' com ID "graph_ms" no final
+                    ms_th_element = result_table.find_element(By.ID, "graph_ms")
+                    ms = ms_th_element.text
+                    f.write(f"{selected_option},{new_value},,{ms}\n")
+
+
+
+                        # Salvar os dados em um arquivo JSON
+                        #with open('traceroute.json', 'a') as f:
+                            #f.write(f'{{"origem": "{selected_option}", "destino": "{new_value}", "hop": "{hop}", "ms": "{ms}"}}\n')

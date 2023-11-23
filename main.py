@@ -29,7 +29,7 @@ def main():
     driver = webdriver.Chrome(options=chrome_options)
 
     # Navegar até o site
-    driver.get("http://isp.tools/mtr")
+    driver.get("http://isp.tools/traceroute")
 
     # Esperar um momento para o site carregar completamente
     time.sleep(5)
@@ -47,3 +47,7 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
+
+#Pegar o ms e o hop
