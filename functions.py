@@ -62,8 +62,8 @@ def test_and_save_image(driver, selected_option):
                 # Esperar até que todas as linhas estejam presentes na tabela
                 wait.until(EC.presence_of_all_elements_located((By.TAG_NAME, "tr")))
                 
+                # Esperar até que o elemento <tfoot> com o ID "graph_end" seja exibido
                 wait.until(EC.presence_of_element_located((By.ID, "graph_end")))
-                #wait.until(EC.presence_of_element_located((By.ID, "th")))
 
                 print("Tabela de resultados exibida!")
                 # Encontrar todas as linhas na tabela
@@ -75,24 +75,19 @@ def test_and_save_image(driver, selected_option):
                     for row in rows:
                         cells = row.find_elements(By.TAG_NAME, "td")
                         if cells:
+                            
                             hop = cells[0].text
                             ms = cells[3].text if len(cells) > 3 else ""
-                            #if ms != "FIM":  # Salvar todos os valores exceto "FIM" na lista
-                            hop_ms_list.append(f"{selected_option},{new_value},{hop},{ms}\n")
-                            time.sleep(0.5)
+                            if ms != "FIM":  # Salvar todos os valores exceto "FIM" na lista
+                                print(f"{selected_option},{new_value},{hop},{ms}")
+                                hop_ms_list.append(f"{selected_option},{new_value},{hop},{ms}\n")
                     
                     # Salvar todos os valores dos elementos 'td', exceto "FIM"
                     for line in hop_ms_list:
+                        print("Ultimo appende")
                         f.write(line)
-                    time.sleep(0.5)
                     
                     # Salvar o valor do elemento 'th' com ID "graph_ms" no final
-                    ms_th_element = result_table.find_element(By.ID, "graph_ms")
-                    ms = ms_th_element.text
-                    f.write(f"{selected_option},{new_value},,{ms}\n")
-
-
-
-                        # Salvar os dados em um arquivo JSON
-                        #with open('traceroute.json', 'a') as f:
-                            #f.write(f'{{"origem": "{selected_option}", "destino": "{new_value}", "hop": "{hop}", "ms": "{ms}"}}\n')
+                    #ms_th_element = result_table.find_element(By.ID, "graph_ms")
+                    #ms = ms_th_element.text
+                    #f.write(f"{selected_option},{new_value},,{ms}\n")
