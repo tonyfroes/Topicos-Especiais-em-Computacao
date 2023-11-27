@@ -5,6 +5,7 @@ from selenium.webdriver.support import expected_conditions as EC
 import time
 import csv
 import requests
+import os
 
 def save_options(driver):
     select_element = Select(driver.find_element(By.ID, "origem"))
@@ -69,25 +70,40 @@ def test_and_save_image(driver, selected_option):
                 # Encontrar todas as linhas na tabela
                 rows = result_table.find_elements(By.TAG_NAME, "tr")[:-1]
 
-                with open('traceroute.csv', 'a') as f:
-                    hop_ms_list = []
+                data_to_write = []
 
-                    for row in rows:
-                        cells = row.find_elements(By.TAG_NAME, "td")
-                        if cells:
-                            
-                            hop = cells[0].text
-                            ms = cells[3].text if len(cells) > 3 else ""
-                            if ms != "FIM":  # Salvar todos os valores exceto "FIM" na lista
-                                print(f"{selected_option},{new_value},{hop},{ms}")
-                                hop_ms_list.append(f"{selected_option},{new_value},{hop},{ms}\n")
+                for row in rows:
+                    cells = row.find_elements(By.TAG_NAME, "td")
+                    if cells:
+                        hop = cells[0].text
+                        ms = cells[3].text if len(cells) > 3 else ""
+                        time.sleep(1)
+                        if ms != "FIM":
+                            selected_option = selected_option
+                            new_value = new_value
+
+                            # Adiciona os dados à lista como uma lista de valores
+                            data_to_write.append([selected_option, new_value, hop, ms])
+                    elif row.find_elements(By.TAG_NAME, "th"):
+                        # Se a linha contiver o elemento <th>, então é o cabeçalho
+                        # Adiciona os dados à lista como uma lista de valores
+                        th_elements = row.find_elements(By.TAG_NAME, "th")
+                        hop = th_elements[0].text
+                        ms = th_elements[3].text
+                        data_to_write.append([selected_option, new_value, hop, ms])
+                        print("Cabeçalho da tabela encontrado!")
+                # Define o arquivo CSV onde você deseja salvar os dados
+                csv_file = 'traceroute.csv'
+
+                # Escreve os dados coletados no arquivo CSV
+                with open(csv_file, 'a', newline='', encoding='utf-8') as f:
+                    writer = csv.writer(f)
                     
-                    # Salvar todos os valores dos elementos 'td', exceto "FIM"
-                    for line in hop_ms_list:
-                        print("Ultimo appende")
-                        f.write(line)
+                    # Se o arquivo estiver vazio, adicione o cabeçalho
+                    #if os.stat(csv_file).st_size == 0:
+                        #writer.writerow(['selected_option', 'new_value', 'hop', 'ms'])  # Cabeçalho
+
+                    # Escreve os dados na lista no arquivo CSV
+                    writer.writerows(data_to_write)
+                print(data_to_write)
                     
-                    # Salvar o valor do elemento 'th' com ID "graph_ms" no final
-                    #ms_th_element = result_table.find_element(By.ID, "graph_ms")
-                    #ms = ms_th_element.text
-                    #f.write(f"{selected_option},{new_value},,{ms}\n")
