@@ -9,7 +9,7 @@ from functions import save_options, select_source, test_and_save_image
 
 def main():
     # Especifique o diretório de destino
-    download_directory = r"C:\Users\TonyFroes\Documents\SeleniumProjeto\images"  # Examplo: r"C:\Users\Maquinado\Documents\SeleniumProjeto\images"
+    download_directory = r"C:\Users\joaos\Documents\SeleniumProjeto\images"  # Examplo: r"C:\Users\Maquinado\Documents\SeleniumProjeto\images"
 
     # Certifique-se de que o diretório de destino exista
     if not os.path.exists(download_directory):
