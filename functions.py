@@ -4,18 +4,14 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
 import csv
-import requests
-import os
 
 def save_options(driver):
     select_element = Select(driver.find_element(By.ID, "origem"))
     opcoes_origem = [option.text for option in select_element.options]
 
-    # Exibir as opções de origem
     for i, opcao in enumerate(opcoes_origem, start=1):
         print(f"{i}. {opcao}")
 
-    # Save the options in a CSV file
     with open('opcoes_origem.csv', 'w') as f:
         for item in opcoes_origem:
             f.write("%s\n" % item)
@@ -25,12 +21,8 @@ def save_options(driver):
 def select_source(driver, opcoes_origem):
     escolha = int(input("Escolha uma origem pelo número: "))
     if 1 <= escolha <= len(opcoes_origem):
-        # Selecionar a opção no site com base no índice escolhido
         select_element = Select(driver.find_element(By.ID, "origem"))
         select_element.select_by_index(escolha - 1)
-        # Pode adicionar uma pausa para garantir que a seleção seja processada
-        time.sleep(2)
-        # Verificar se a opção foi selecionada corretamente
         opcao_selecionada = select_element.first_selected_option.text
         print(f"Você selecionou: {opcao_selecionada}")
         return opcao_selecionada
@@ -41,10 +33,10 @@ def select_source(driver, opcoes_origem):
 def test_and_save_image(driver, selected_option):
     with open('ips.csv', 'r') as csv_file:
         csv_reader = csv.reader(csv_file)
-        next(csv_reader)  # Pular o cabeçalho, se houver
+        next(csv_reader)
 
         for row in csv_reader:
-            new_value = row[0]  # Assume que o IP está na primeira coluna
+            new_value = row[0]
 
             driver.execute_script("document.getElementById('ip').value = arguments[0];", new_value)
 
@@ -53,21 +45,16 @@ def test_and_save_image(driver, selected_option):
                 testar_button.click()
                 print("Botão Testar clicado!")
 
-                # Esperar até que o elemento <tfoot> com o ID "graph_end" seja exibido
                 wait = WebDriverWait(driver, 120)
                 wait.until(EC.visibility_of_element_located((By.ID, "graph_end")))
 
-                # Esperar até que a tabela de resultados seja exibida
                 result_table = wait.until(EC.visibility_of_element_located((By.ID, "graph_table")))
 
-                # Esperar até que todas as linhas estejam presentes na tabela
                 wait.until(EC.presence_of_all_elements_located((By.TAG_NAME, "tr")))
                 
-                # Esperar até que o elemento <tfoot> com o ID "graph_end" seja exibido
                 wait.until(EC.presence_of_element_located((By.ID, "graph_end")))
 
                 print("Tabela de resultados exibida!")
-                # Encontrar todas as linhas na tabela
                 rows = result_table.find_elements(By.TAG_NAME, "tr")[:-1]
 
                 data_to_write = []
@@ -77,25 +64,19 @@ def test_and_save_image(driver, selected_option):
                     if cells:
                         hop = cells[0].text
                         ms = cells[3].text if len(cells) > 3 else ""
-                        time.sleep(1)
                         if ms != "FIM":
                             selected_option = selected_option
                             new_value = new_value
 
-                            # Adiciona os dados à lista como uma lista de valores
                             data_to_write.append([selected_option, new_value, hop, ms])
                     elif row.find_elements(By.TAG_NAME, "th"):
-                        # Se a linha contiver o elemento <th>, então é o cabeçalho
-                        # Adiciona os dados à lista como uma lista de valores
                         th_elements = row.find_elements(By.TAG_NAME, "th")
                         hop = th_elements[0].text
                         ms = th_elements[3].text
                         data_to_write.append([selected_option, new_value, hop, ms])
                         print("Cabeçalho da tabela encontrado!")
-                # Define o arquivo CSV onde você deseja salvar os dados
                 csv_file = 'traceroute.csv'
 
-                # Escreve os dados coletados no arquivo CSV
                 with open(csv_file, 'a', newline='', encoding='utf-8') as f:
                     writer = csv.writer(f)
                     
@@ -105,5 +86,4 @@ def test_and_save_image(driver, selected_option):
 
                     # Escreve os dados na lista no arquivo CSV
                     writer.writerows(data_to_write)
-                print(data_to_write)
                     
