@@ -86,4 +86,3 @@ def test_and_save_image(driver, selected_option):
 
                     # Escreve os dados na lista no arquivo CSV
                     writer.writerows(data_to_write)
-                    
