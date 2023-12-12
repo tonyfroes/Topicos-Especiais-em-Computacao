@@ -55,3 +55,92 @@
     MKM Internet (Braço do Norte),192.168.0.2,4,unreachable
     MKM Internet (Braço do Norte),192.168.0.2,5,unreachable
     MKM Internet (Braço do Norte),192.168.0.2,FIM,
+    3D Telecom (São Ludgero),8.8.8.8,Hop,Tempo (ms)
+    3D Telecom (São Ludgero),8.8.8.8,1,1ms
+    3D Telecom (São Ludgero),8.8.8.8,2,1ms
+    3D Telecom (São Ludgero),8.8.8.8,3,1ms
+    3D Telecom (São Ludgero),8.8.8.8,4,1ms
+    3D Telecom (São Ludgero),8.8.8.8,5,1ms
+    3D Telecom (São Ludgero),8.8.8.8,6,27ms
+    3D Telecom (São Ludgero),8.8.8.8,7,17ms
+    3D Telecom (São Ludgero),8.8.8.8,8,28ms
+    3D Telecom (São Ludgero),8.8.8.8,9,14ms
+    3D Telecom (São Ludgero),8.8.8.8,FIM,
+    3D Telecom (São Ludgero),8.8.8.8,Hop,Tempo (ms)
+    3D Telecom (São Ludgero),8.8.8.8,1,1ms
+    3D Telecom (São Ludgero),8.8.8.8,2,1ms
+    3D Telecom (São Ludgero),8.8.8.8,3,1ms
+    3D Telecom (São Ludgero),8.8.8.8,4,1ms
+    3D Telecom (São Ludgero),8.8.8.8,5,1ms
+    3D Telecom (São Ludgero),8.8.8.8,6,27ms
+    3D Telecom (São Ludgero),8.8.8.8,7,17ms
+    3D Telecom (São Ludgero),8.8.8.8,8,27ms
+    3D Telecom (São Ludgero),8.8.8.8,9,14ms
+    3D Telecom (São Ludgero),8.8.8.8,FIM,
+    3D Telecom (São Ludgero),8.8.8.8,Hop,Tempo (ms)
+    3D Telecom (São Ludgero),8.8.8.8,1,1ms
+    3D Telecom (São Ludgero),8.8.8.8,2,1ms
+    3D Telecom (São Ludgero),8.8.8.8,3,1ms
+    3D Telecom (São Ludgero),8.8.8.8,4,1ms
+    3D Telecom (São Ludgero),8.8.8.8,5,1ms
+    3D Telecom (São Ludgero),8.8.8.8,6,27ms
+    3D Telecom (São Ludgero),8.8.8.8,7,17ms
+    3D Telecom (São Ludgero),8.8.8.8,8,28ms
+    3D Telecom (São Ludgero),8.8.8.8,9,15ms
+    3D Telecom (São Ludgero),8.8.8.8,FIM,
+    3D Telecom (São Ludgero),8.8.8.8,Hop,Tempo (ms)
+    3D Telecom (São Ludgero),8.8.8.8,1,1ms
+    3D Telecom (São Ludgero),8.8.8.8,2,1ms
+    3D Telecom (São Ludgero),8.8.8.8,3,1ms
+    3D Telecom (São Ludgero),8.8.8.8,4,1ms
+    3D Telecom (São Ludgero),8.8.8.8,5,1ms
+    3D Telecom (São Ludgero),8.8.8.8,6,30ms
+    3D Telecom (São Ludgero),8.8.8.8,7,17ms
+    3D Telecom (São Ludgero),8.8.8.8,8,27ms
+    3D Telecom (São Ludgero),8.8.8.8,9,15ms
+    3D Telecom (São Ludgero),8.8.8.8,FIM,
+    4u Network (São José),8.8.8.8,Hop,Tempo (ms)
+    4u Network (São José),8.8.8.8,1,1ms
+    4u Network (São José),8.8.8.8,2,1ms
+    4u Network (São José),8.8.8.8,3,2ms
+    4u Network (São José),8.8.8.8,4,unreachable
+    4u Network (São José),8.8.8.8,5,16ms
+    4u Network (São José),8.8.8.8,6,16ms
+    4u Network (São José),8.8.8.8,7,15ms
+    4u Network (São José),8.8.8.8,FIM,
+    3D Telecom (São Ludgero),8.8.8.8,Hop,Tempo (ms)
+    3D Telecom (São Ludgero),8.8.8.8,1,1ms
+    3D Telecom (São Ludgero),8.8.8.8,2,1ms
+    3D Telecom (São Ludgero),8.8.8.8,3,1ms
+    3D Telecom (São Ludgero),8.8.8.8,4,1ms
+    3D Telecom (São Ludgero),8.8.8.8,5,1ms
+    3D Telecom (São Ludgero),8.8.8.8,6,27ms
+    3D Telecom (São Ludgero),8.8.8.8,7,17ms
+    3D Telecom (São Ludgero),8.8.8.8,8,28ms
+    3D Telecom (São Ludgero),8.8.8.8,9,14ms
+    3D Telecom (São Ludgero),8.8.8.8,FIM,
+    4u Network (São José),8.8.8.8,Hop,Tempo (ms)
+    4u Network (São José),8.8.8.8,1,1ms
+    4u Network (São José),8.8.8.8,2,1ms
+    4u Network (São José),8.8.8.8,3,4ms
+    4u Network (São José),8.8.8.8,4,unreachable
+    4u Network (São José),8.8.8.8,5,15ms
+    4u Network (São José),8.8.8.8,6,16ms
+    4u Network (São José),8.8.8.8,7,16ms
+    4u Network (São José),8.8.8.8,FIM,
+    Athena Telecom (Jaraguá do Sul),8.8.8.8,Hop,Tempo (ms)
+    Athena Telecom (Jaraguá do Sul),8.8.8.8,1,1ms
+    Athena Telecom (Jaraguá do Sul),8.8.8.8,2,1ms
+    Athena Telecom (Jaraguá do Sul),8.8.8.8,3,1ms
+    Athena Telecom (Jaraguá do Sul),8.8.8.8,4,1ms
+    Athena Telecom (Jaraguá do Sul),8.8.8.8,5,1084ms
+    Athena Telecom (Jaraguá do Sul),8.8.8.8,6,4ms
+    Athena Telecom (Jaraguá do Sul),8.8.8.8,7,unreachable
+    Athena Telecom (Jaraguá do Sul),8.8.8.8,8,4ms
+    Athena Telecom (Jaraguá do Sul),8.8.8.8,9,10ms
+    Athena Telecom (Jaraguá do Sul),8.8.8.8,10,19ms
+    Athena Telecom (Jaraguá do Sul),8.8.8.8,11,10ms
+    Athena Telecom (Jaraguá do Sul),8.8.8.8,12,10ms
+    Athena Telecom (Jaraguá do Sul),8.8.8.8,13,15ms
+    Athena Telecom (Jaraguá do Sul),8.8.8.8,14,11ms
+    Athena Telecom (Jaraguá do Sul),8.8.8.8,FIM,
