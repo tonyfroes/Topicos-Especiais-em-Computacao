@@ -13,6 +13,7 @@ def main():
     for i in range(len(opcoes_origem)):
         selected_option = select_source(driver, opcoes_origem, i)
         if selected_option:
+            print(selected_option)
             test_dados(driver, selected_option)
     
     driver.quit()

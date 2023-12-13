@@ -8,13 +8,12 @@ def save_options(driver):
     select_element = Select(driver.find_element(By.ID, "origem"))
     opcoes_origem = [option.text for option in select_element.options]
 
-    for i, opcao in enumerate(opcoes_origem, start=1):
-        print(f"{i}. {opcao}")
+    # for i, opcao in enumerate(opcoes_origem, start=1):
+    #     print(f"{i}. {opcao}")
 
     with open('opcoes_origem.csv', 'w') as f:
         for item in opcoes_origem:
             f.write("%s\n" % item)
-    
     return opcoes_origem
 
 # def select_source(driver, opcoes_origem):
@@ -35,62 +34,64 @@ def select_source(driver, opcoes_origem, index):
         select_element = Select(driver.find_element(By.ID, "origem"))
         select_element.select_by_index(index)
         opcao_selecionada = select_element.first_selected_option.text
-        print(f"Você selecionou: {opcao_selecionada}")
+        # print(f"Você selecionou: {opcao_selecionada}")
         return opcao_selecionada
     else:
-        print("Índice inválido. Por favor, insira um número válido.")
+        # print("Índice inválido. Por favor, insira um número válido.")
         return None
 
-def test_dados(driver, selected_option):
-    with open('ips.csv', 'r') as csv_file:
-        csv_reader = csv.reader(csv_file)
-        next(csv_reader)  # Skip header if present
+def test_dados(driver, ip, selected_option):
+    curr_ip = ip
+    media = []
 
-        for row in csv_reader:
-            if row:  # Ensure the row is not empty
-                new_value = row[0]
+    driver.execute_script("document.getElementById('ip').value = arguments[0];", curr_ip)
 
-                driver.execute_script("document.getElementById('ip').value = arguments[0];", new_value)
+    testar_button = driver.find_element(By.ID, "testar")
+    if testar_button.is_enabled() and testar_button.is_displayed():
+        testar_button.click()
+        # print("Botão Testar clicado!")
 
-                testar_button = driver.find_element(By.ID, "testar")
-                if testar_button.is_enabled() and testar_button.is_displayed():
-                    testar_button.click()
-                    print("Botão Testar clicado!")
+        wait = WebDriverWait(driver, 120)
+        wait.until(EC.visibility_of_element_located((By.ID, "graph_end")))
+        
+        result_table = wait.until(EC.visibility_of_element_located((By.ID, "graph_table")))
 
-                    wait = WebDriverWait(driver, 120)
-                    wait.until(EC.visibility_of_element_located((By.ID, "graph_end")))
+        # print(result_table)
 
-                    result_table = wait.until(EC.visibility_of_element_located((By.ID, "graph_table")))
+        wait.until(EC.presence_of_all_elements_located((By.TAG_NAME, "tr")))
 
-                    wait.until(EC.presence_of_all_elements_located((By.TAG_NAME, "tr")))
+        wait.until(EC.presence_of_element_located((By.ID, "graph_end")))
 
-                    wait.until(EC.presence_of_element_located((By.ID, "graph_end")))
+        # print("Tabela de resultados exibida!")
+        rows = result_table.find_elements(By.TAG_NAME, "tr")[:-1]
 
-                    print("Tabela de resultados exibida!")
-                    rows = result_table.find_elements(By.TAG_NAME, "tr")[:-1]
+        data_to_write = []
 
-                    data_to_write = []
+        for row in rows:
+            cells = row.find_elements(By.TAG_NAME, "td")
+            if cells:
+                hop = cells[0].text
+                ms = cells[3].text if len(cells) > 3 else ""
 
-                    for row in rows:
-                        cells = row.find_elements(By.TAG_NAME, "td")
-                        if cells:
-                            hop = cells[0].text
-                            ms = cells[3].text if len(cells) > 3 else ""
-                            if ms != "FIM":
-                                selected_option = selected_option
-                                new_value = new_value
+                if (ms != "FIM" and ms != "unreachable" and ms != "ERROR" and ms != "0ms" and ms != ""):
+                    ms = ms[:-2]
+                    media.append(int(ms))
+                if ms != "FIM":
+                    selected_option = selected_option
+                    curr_ip = curr_ip
 
-                                data_to_write.append([selected_option, new_value, hop, ms])
-                        elif row.find_elements(By.TAG_NAME, "th"):
-                            th_elements = row.find_elements(By.TAG_NAME, "th")
-                            hop = th_elements[0].text
-                            ms = th_elements[3].text
-                            data_to_write.append([selected_option, new_value, hop, ms])
-                            print("Cabeçalho da tabela encontrado!")
-                    csv_file = 'traceroute.csv'
+                    data_to_write.append([selected_option, curr_ip, hop, ms])
+            elif row.find_elements(By.TAG_NAME, "th"):
+                th_elements = row.find_elements(By.TAG_NAME, "th")
+                hop = th_elements[0].text
+                ms = th_elements[3].text
+                data_to_write.append([selected_option, curr_ip, hop, ms])
+                # print("Cabeçalho da tabela encontrado!")
+        csv_file = 'traceroute.csv'
 
-                    with open(csv_file, 'a', newline='', encoding='utf-8') as f:
-                        writer = csv.writer(f)
+        with open(csv_file, 'a', newline='', encoding='utf-8') as f:
+            writer = csv.writer(f)
 
-                        # Escreve os dados na lista no arquivo CSV
-                        writer.writerows(data_to_write)
+            # Escreve os dados na lista no arquivo CSV
+            writer.writerows(data_to_write)
+        return media
