@@ -8,17 +8,15 @@ data = pd.read_csv('information.csv', names=column_names, header=0)
 distancia = data['Distância']
 ping_esperado = data['Ping Esperado']
 ping_obtido = data['Ping Obtido']
-hops = data['HOPs']
 
 plt.figure(figsize=(10, 6))
 
 plt.scatter(distancia, ping_esperado, label='Ping Esperado', color='blue', alpha=0.7)
 plt.scatter(distancia, ping_obtido, label='Ping Obtido', color='red', alpha=0.7)
-plt.scatter(distancia, hops, label='HOPs', color='green', alpha=0.7)
 
 plt.xlabel('Distância (km)')
 plt.ylabel('Ping (ms)')
-plt.title('Distância com Ping Esperado, Ping Obtido e HOPs')
+plt.title('Distância com Ping Esperado e Ping Obtido')
 plt.legend()
 
 # Mostra o gráfico
